@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans.xsd 
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.springjdbc" />
+    
+
+    
+    
+    <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/onlinebookstore" />
+        <property name="username" value="root" />
+        <property name="password" value="A191047b@" />
+    </bean>
+
+    <bean name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean name="readerDao" class="com.springjdbc.dao.ReaderDaoImple">
+        <property name="jdbctemplate" ref="jdbcTemplate" />
+    </bean>
+    
+     <bean name="adminDao" class="com.springjdbc.dao.AdminDaoImple">
+        <property name="jdbc" ref="jdbcTemplate" />
+    </bean>
+
+    <bean name="book" class="com.springjdbc.entities.admin.Book">
+        <property name="reader" ref="readerDao" />
+         <property name="admin" ref="adminDao" />
+    </bean>
+    
+    <bean name="novel" class="com.springjdbc.entities.admin.Novel">
+		<property name="reader" ref="readerDao" />
+ <property name="admin" ref="adminDao" />
+    </bean>
+    
+    <bean name="paper" class="com.springjdbc.entities.admin.Newspaper">
+		<property name="reader" ref="readerDao" />
+ <property name="admin" ref="adminDao" />
+    </bean>
+    
+    <bean name="magazine" class="com.springjdbc.entities.admin.Magazine">
+		<property name="reader" ref="readerDao" />
+ <property name="admin" ref="adminDao" />
+    </bean>
+    
+    <bean name="admin" class="com.springjdbc.entities.Admin" >
+    	<property name="b1" ref="book"></property>
+    	<property name="n1" ref="novel"></property>
+    	<property name="m1" ref="magazine"></property>
+    	<property name="p1" ref="paper"></property>
+    </bean>
+    
+    
+    <bean name="reader" class="com.springjdbc.entities.Reader" >
+    	<property name="b1" ref="book"></property>
+    	<property name="n1" ref="novel"></property>
+    	<property name="m1" ref="magazine"></property>
+    	<property name="p1" ref="paper"></property>
+    </bean>
+    
+    
+    <bean name="user" class="com.springjdbc.User" >
+    	<property name="ad" ref="admin"></property>
+    	<property name="rd" ref="reader"></property>
+    </bean>
+    
+</beans>
